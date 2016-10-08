@@ -1289,12 +1289,26 @@ void retro_reset (void)
 
 void *retro_get_memory_data(unsigned type)
 {
-   return (type == RETRO_MEMORY_SAVE_RAM) ? &saved_memory : 0;
+   switch(type){
+   case RETRO_MEMORY_SAVE_RAM:
+	   return &saved_memory;
+   case RETRO_MEMORY_SYSTEM_RAM:
+	   return &g_rdram;
+   default:
+	   return 0;
+   }
 }
 
 size_t retro_get_memory_size(unsigned type)
 {
-   return (type == RETRO_MEMORY_SAVE_RAM) ? sizeof(saved_memory) : 0;
+   switch(type){
+   case RETRO_MEMORY_SAVE_RAM:
+	   return sizeof(saved_memory);
+   case RETRO_MEMORY_SYSTEM_RAM:
+	   return RDRAM_MAX_SIZE/4;
+   default:
+	   return 0;
+   }
 }
 
 
